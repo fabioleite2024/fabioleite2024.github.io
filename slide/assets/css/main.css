@@ -83,12 +83,12 @@ input, select, textarea {
 	}
 
 	body {
-		background-color: #e8e8e8;
-		background-image: url("images/bg02.png");
-		display: -moz-flex;
-		display: -webkit-flex;
-		display: -ms-flex;
-		display: flex;
+		background: #fff;
+		font-family: 'Source Sans Pro', sans-serif;
+		font-size: 19pt;
+		font-weight: 300;
+		line-height: 1.75em;
+		color: #888;
 	}
 
 		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
