@@ -2357,7 +2357,7 @@ input, select, textarea {
 				}
 
 					#nav ul li a span:before {
-						left: 100%;
+						/* left: 100%; */
 						margin-left: -1.25em;
 						line-height: 2.25em;
 					}
@@ -2372,6 +2372,11 @@ input, select, textarea {
 
 			#main {
 				margin-left: 20%;
+			}
+
+			/* logo */
+			div#logo {
+				text-align: center;
 			}
 
 	}
@@ -2630,4 +2635,13 @@ input, select, textarea {
 					margin-top: 0;
 				}
 
+	}
+
+	/* rodapé */
+	.img-logo{
+		width: 60px;
+	}
+
+	.gpc-lgpd-cor_ffffff{
+		display: none;
 	}
