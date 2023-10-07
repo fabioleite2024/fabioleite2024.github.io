@@ -1,6 +1,6 @@
 <?php
 // Conexão com o banco de dados MySQL
-$servername = "https://website2425.000webhostapp.com/";
+$servername = "https://databases-auth.000webhost.com/";
 $username = "id17772163_new";
 $password = "114811t@F@";
 $dbname = "id17772163_new";
@@ -18,7 +18,7 @@ $email = $_POST['email'];
 $mensagem = $_POST['message'];
 
 // Prepare e execute a consulta SQL para inserir os dados
-$sql = "INSERT INTO mensagens (nome, email, mensagem) VALUES (?, ?, ?)";
+$sql = "INSERT INTO clientes (nome, email, msg) VALUES (?, ?, ?)";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("sss", $nome, $email, $mensagem);
 
