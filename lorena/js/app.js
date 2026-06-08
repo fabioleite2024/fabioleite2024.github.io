@@ -144,7 +144,7 @@ async function salvarNumero(){
         fralda:tamanhoAtual
     };
 
-    const resp = await fetch("salvar.php",{
+    const resp = await fetch("/salvar.php",{
 
         method:"POST",
 
