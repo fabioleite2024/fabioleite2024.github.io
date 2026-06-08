@@ -1,165 +1,234 @@
 const grid = document.getElementById("gridRifa");
 
+const CHAVE = "rifa_lorena";
+
 let numeroAtual = 0;
 let tamanhoAtual = "";
 
 const tamanhos = [
-"Fralda P + 1 Mimo",
-"Fralda P + 1 Mimo",
-"Fralda P + 1 Mimo",
-"Fralda P + 1 Mimo",
-"Fralda P + 1 Mimo",
-"Fralda P + 1 Mimo",
-"Fralda P + 1 Mimo",
-"Fralda P + 1 Mimo",
-"Fralda P + 1 Mimo",
+
 "Fralda P + 1 Mimo",
 
-"Fralda M + 1 Mimo",
-"Fralda M + 1 Mimo",
-"Fralda M + 1 Mimo",
-"Fralda M + 1 Mimo",
-"Fralda M + 1 Mimo",
-"Fralda M + 1 Mimo",
-"Fralda M + 1 Mimo",
-"Fralda M + 1 Mimo",
-"Fralda M + 1 Mimo",
+"Fralda P + 1 Mimo",
+
+"Fralda P + 1 Mimo",
+
+"Fralda P + 1 Mimo",
+
+"Fralda P + 1 Mimo",
+
+"Fralda P + 1 Mimo",
+
+"Fralda P + 1 Mimo",
+
+"Fralda P + 1 Mimo",
+
+"Fralda P + 1 Mimo",
+
+"Fralda P + 1 Mimo",
+
+
+
 "Fralda M + 1 Mimo",
 
 "Fralda M + 1 Mimo",
-"Fralda M + 1 Mimo",
-"Fralda M + 1 Mimo",
-"Fralda M + 1 Mimo",
-"Fralda M + 1 Mimo",
-"Fralda M + 1 Mimo",
-"Fralda M + 1 Mimo",
-"Fralda M + 1 Mimo",
-"Fralda M + 1 Mimo",
+
 "Fralda M + 1 Mimo",
 
-"Fralda G + 1 Mimo",
-"Fralda G + 1 Mimo",
-"Fralda G + 1 Mimo",
-"Fralda G + 1 Mimo",
-"Fralda G + 1 Mimo",
-"Fralda G + 1 Mimo",
-"Fralda G + 1 Mimo",
-"Fralda G + 1 Mimo",
-"Fralda G + 1 Mimo",
+"Fralda M + 1 Mimo",
+
+"Fralda M + 1 Mimo",
+
+"Fralda M + 1 Mimo",
+
+"Fralda M + 1 Mimo",
+
+"Fralda M + 1 Mimo",
+
+"Fralda M + 1 Mimo",
+
+"Fralda M + 1 Mimo",
+
+
+
+"Fralda M + 1 Mimo",
+
+"Fralda M + 1 Mimo",
+
+"Fralda M + 1 Mimo",
+
+"Fralda M + 1 Mimo",
+
+"Fralda M + 1 Mimo",
+
+"Fralda M + 1 Mimo",
+
+"Fralda M + 1 Mimo",
+
+"Fralda M + 1 Mimo",
+
+"Fralda M + 1 Mimo",
+
+"Fralda M + 1 Mimo",
+
+
+
 "Fralda G + 1 Mimo",
 
 "Fralda G + 1 Mimo",
+
 "Fralda G + 1 Mimo",
 
+"Fralda G + 1 Mimo",
+
+"Fralda G + 1 Mimo",
+
+"Fralda G + 1 Mimo",
+
+"Fralda G + 1 Mimo",
+
+"Fralda G + 1 Mimo",
+
+"Fralda G + 1 Mimo",
+
+"Fralda G + 1 Mimo",
+
+
+
+"Fralda G + 1 Mimo",
+
+"Fralda G + 1 Mimo",
+
+
+
 "Fralda XG + 1 Mimo",
+
 "Fralda XG + 1 Mimo",
+
 "Fralda XG + 1 Mimo",
+
 "Fralda XG + 1 Mimo",
+
 "Fralda XG + 1 Mimo",
+
 "Fralda XG + 1 Mimo",
+
 "Fralda XG + 1 Mimo",
+
 "Fralda XG + 1 Mimo"
+
 ];
 
-carregarNumeros();
+function obterDados() {
+    return JSON.parse(localStorage.getItem(CHAVE)) || [];
+}
 
-async function carregarNumeros(){
+function salvarDados(dados) {
+    localStorage.setItem(CHAVE, JSON.stringify(dados));
+}
 
-    let vendidos = [];
+function carregarNumeros() {
 
-    try{
+    const vendidos = obterDados();
 
-        const resp = await fetch("data/rifa.json");
-        vendidos = await resp.json();
+    grid.innerHTML = "";
 
-    }catch{
+    for(let i = 1; i <= 50; i++) {
 
-    }
-
-    grid.innerHTML="";
-
-    for(let i=1;i<=50;i++){
+        const venda = vendidos.find(x => x.numero === i);
 
         const item = document.createElement("div");
-
-        const venda = vendidos.find(x => x.numero == i);
 
         item.className = venda
             ? "numero vendido"
             : "numero";
 
-       item.innerHTML = `
-    <b>${String(i).padStart(2,'0')}</b>
-    <div style="margin-top:8px;font-size:12px">
-        ${tamanhos[i-1]}
-    </div>
-    <div style="margin-top:8px;color:#d63384;font-weight:bold">
-        ${venda ? venda.nome : "Disponível"}
-    </div>
-`;
+        item.innerHTML = `
+            <b>${String(i).padStart(2,'0')}</b>
+            <br>
+            Fralda ${tamanhos[i - 1]}
+            <br>
+            <small>
+                ${venda ? venda.nome : "Disponível"}
+            </small>
+        `;
 
-        if(!venda){
-
+        if(!venda) {
             item.onclick = () =>
-                abrirModal(i,tamanhos[i-1]);
+                abrirModal(i, tamanhos[i - 1]);
         }
 
         grid.appendChild(item);
     }
 }
 
-function abrirModal(numero,fralda){
+function abrirModal(numero, fralda) {
 
     numeroAtual = numero;
     tamanhoAtual = fralda;
 
-    document.getElementById("numeroSelecionado")
-            .innerText = numero;
+    document.getElementById("numeroSelecionado").innerText = numero;
+    document.getElementById("fraldaSelecionada").innerText = fralda;
 
-    document.getElementById("fraldaSelecionada")
-            .innerText = fralda;
-
-    document.getElementById("modal")
-            .style.display="block";
+    document.getElementById("modal").style.display = "block";
 }
 
-function fecharModal(){
+function fecharModal() {
 
-    document.getElementById("modal")
-            .style.display="none";
+    document.getElementById("modal").style.display = "none";
+
+    document.getElementById("nome").value = "";
+    document.getElementById("telefone").value = "";
 }
 
-async function salvarNumero(){
+function salvarNumero() {
 
     const nome =
-        document.getElementById("nome").value;
+        document.getElementById("nome").value.trim();
 
     const telefone =
-        document.getElementById("telefone").value;
+        document.getElementById("telefone").value.trim();
 
-    const dados = {
-        numero:numeroAtual,
-        nome:nome,
-        telefone:telefone,
-        fralda:tamanhoAtual
-    };
+    if(nome === "") {
+        alert("Informe o nome.");
+        return;
+    }
 
-    const resp = await fetch("/salvar.php",{
+    let dados = obterDados();
 
-        method:"POST",
+    const existe =
+        dados.find(x => x.numero === numeroAtual);
 
-        headers:{
-            "Content-Type":"application/json"
-        },
+    if(existe) {
+        alert("Número já reservado.");
+        return;
+    }
 
-        body:JSON.stringify(dados)
+    dados.push({
+        numero: numeroAtual,
+        nome: nome,
+        telefone: telefone,
+        fralda: tamanhoAtual,
+        data: new Date().toLocaleString()
     });
 
-    const retorno = await resp.json();
-
-    alert(retorno.mensagem);
+    salvarDados(dados);
 
     fecharModal();
 
     carregarNumeros();
+
+    alert("Número reservado com sucesso!");
 }
+
+function limparRifa() {
+
+    if(confirm("Deseja apagar todos os números?")) {
+
+        localStorage.removeItem(CHAVE);
+
+        carregarNumeros();
+    }
+}
+
+carregarNumeros();
