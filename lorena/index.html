@@ -1,61 +1,166 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Chá Rifa da Lorena</title>
-<link rel="icon" type="image/x-icon" href="favicon.ico">
-<!-- <link rel="manifest" href="manifest.json"> -->
-<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="favicon.png">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#ffe6ef;padding:15px}
+.container{max-width:1200px;margin:auto}
+.topo,.painel,.modal-content{background:#fff;border-radius:16px;box-shadow:0 2px 10px rgba(0,0,0,.1)}
+.topo{text-align:center;padding:20px;margin-bottom:20px}
+.topo h1{color:#e75480}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:15px 0}
+.card{background:#fff;padding:15px;border-radius:12px;text-align:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.numero{background:#fff;border:2px solid #f49aba;border-radius:12px;padding:10px;text-align:center;cursor:pointer}
+.numero.vendido{background:#ddd;cursor:not-allowed}
+.numero b{font-size:22px;color:#d63384}
+.painel{margin-top:20px;padding:15px}
+table{width:100%;border-collapse:collapse}
+th,td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5)}
+.modal-content{width:95%;max-width:400px;margin:80px auto;padding:20px}
+input,button{width:100%;padding:12px;margin-top:10px}
+button{background:#e75480;color:#fff;border:none;border-radius:8px}
+@media(max-width:768px){table{font-size:12px}}
+</style>
 </head>
 <body>
 
 <div class="container">
-
-    <div class="topo">
-        <h1>🎀 Chá Rifa da Lorena 🎀</h1>
+<div class="topo">
+<h1>🎀 Chá Rifa da Lorena 🎀</h1>
         <h2>Prêmio R$ 200,00 via PIX</h2>
         <p>Escolha seu número e participe!</p>
-    </div>
-
-    <div id="gridRifa" class="grid-rifa"></div>
-
 </div>
 
-<!-- Modal -->
-<div id="modal" class="modal">
-
-    <div class="modal-content">
-
-        <h2>Reservar Número</h2>
-
-        <p>Número: <strong id="numeroSelecionado"></strong></p>
-
-        <p>Tamanho da Fralda:
-            <strong id="fraldaSelecionada"></strong>
-        </p>
-
-        <input type="text"
-               id="nome"
-               placeholder="Nome Completo">
-
-        <input type="text"
-               id="telefone"
-               placeholder="Telefone">
-
-        <button onclick="salvarNumero()">
-            Confirmar
-        </button>
-
-        <button onclick="fecharModal()">
-            Cancelar
-        </button>
-
-    </div>
-
+<div class="cards">
+<div class="card"><h3 id="vendidos">0</h3><p>Vendidos</p></div>
+<div class="card"><h3 id="livres">50</h3><p>Disponíveis</p></div>
 </div>
 
-<script src="js/app.js"></script>
+<div id="grid" class="grid"></div>
+
+<div class="painel">
+<h2>Painel Administrativo</h2>
+<br>
+<table>
+<thead>
+<tr>
+<th>Número</th>
+<th>Nome</th>
+<th>Telefone</th>
+<th>Ação</th>
+</tr>
+</thead>
+<tbody id="dados"></tbody>
+</table>
+</div>
+</div>
+
+<div class="modal" id="modal">
+<div class="modal-content">
+<h2>Reservar Número</h2>
+<p>Número: <span id="numeroSel"></span></p>
+<input id="nome" placeholder="Nome">
+<input id="telefone" placeholder="Telefone">
+<button onclick="salvarNumero()">Confirmar</button>
+<button onclick="fecharModal()">Cancelar</button>
+</div>
+</div>
+
+<script>
+const CHAVE="rifa_lorena";
+const grid=document.getElementById("grid");
+let numeroAtual=0;
+
+function obterDados(){
+ return JSON.parse(localStorage.getItem(CHAVE)||"[]");
+}
+
+function gravar(d){
+ localStorage.setItem(CHAVE,JSON.stringify(d));
+}
+
+function abrirModal(n){
+ numeroAtual=n;
+ document.getElementById("numeroSel").innerText=n;
+ document.getElementById("modal").style.display="block";
+}
+
+function fecharModal(){
+ document.getElementById("modal").style.display="none";
+}
+
+function salvarNumero(){
+ const nome=document.getElementById("nome").value;
+ const telefone=document.getElementById("telefone").value;
+
+ if(!nome){alert("Informe o nome");return;}
+
+ let dados=obterDados();
+
+ dados.push({
+   numero:numeroAtual,
+   nome:nome,
+   telefone:telefone
+ });
+
+ gravar(dados);
+ fecharModal();
+ carregar();
+}
+
+function liberar(numero){
+ let dados=obterDados().filter(x=>x.numero!==numero);
+ gravar(dados);
+ carregar();
+}
+
+function carregar(){
+ let dados=obterDados();
+
+ document.getElementById("vendidos").innerText=dados.length;
+ document.getElementById("livres").innerText=50-dados.length;
+
+ grid.innerHTML="";
+
+ for(let i=1;i<=50;i++){
+   let venda=dados.find(x=>x.numero===i);
+
+   let div=document.createElement("div");
+   div.className=venda?"numero vendido":"numero";
+
+   div.innerHTML=`
+      <b>${String(i).padStart(2,'0')}</b>
+      <div>${venda?venda.nome:"Disponível"}</div>
+   `;
+
+   if(!venda) div.onclick=()=>abrirModal(i);
+
+   grid.appendChild(div);
+ }
+
+ let html="";
+
+ dados.forEach(x=>{
+   html+=`
+   <tr>
+     <td>${x.numero}</td>
+     <td>${x.nome}</td>
+     <td>${x.telefone}</td>
+     <td><button onclick="liberar(${x.numero})">Liberar</button></td>
+   </tr>`;
+ });
+
+ document.getElementById("dados").innerHTML=html;
+}
+
+carregar();
+</script>
 
 </body>
 </html>
