@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Painel Chá Rifa Lorena</title>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="css/admin.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+
+        <h1>🎀 Chá Rifa Lorena</h1>
+
+    </header>
+
+    <section class="cards">
+
+        <div class="card">
+            <i class="fa-solid fa-ticket"></i>
+            <h2 id="totalNumeros">50</h2>
+            <p>Números</p>
+        </div>
+
+        <div class="card">
+            <i class="fa-solid fa-check"></i>
+            <h2 id="vendidos">0</h2>
+            <p>Vendidos</p>
+        </div>
+
+        <div class="card">
+            <i class="fa-solid fa-circle"></i>
+            <h2 id="livres">50</h2>
+            <p>Disponíveis</p>
+        </div>
+
+        <div class="card">
+            <i class="fa-solid fa-money-bill"></i>
+            <h2 id="arrecadado">R$ 0</h2>
+            <p>Arrecadado</p>
+        </div>
+
+    </section>
+
+    <section class="filtros">
+
+        <input
+            type="text"
+            id="pesquisa"
+            placeholder="Pesquisar nome, telefone ou número">
+
+    </section>
+
+    <section class="tabela">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Número</th>
+                    <th>Nome</th>
+                    <th>Telefone</th>
+                    <th>Fralda</th>
+                    <th>Ações</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="dados">
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+</div>
+
+<script src="js/dashboard.js"></script>
+
+</body>
+</html>

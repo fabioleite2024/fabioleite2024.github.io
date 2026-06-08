@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chá Rifa da Lorena</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="topo">
+        <h1>🎀 Chá Rifa da Lorena 🎀</h1>
+        <h2>Prêmio R$ 200,00 via PIX</h2>
+        <p>Escolha seu número e participe!</p>
+    </div>
+
+    <div id="gridRifa" class="grid-rifa"></div>
+
+</div>
+
+<!-- Modal -->
+<div id="modal" class="modal">
+
+    <div class="modal-content">
+
+        <h2>Reservar Número</h2>
+
+        <p>Número: <strong id="numeroSelecionado"></strong></p>
+
+        <p>Tamanho da Fralda:
+            <strong id="fraldaSelecionada"></strong>
+        </p>
+
+        <input type="text"
+               id="nome"
+               placeholder="Nome Completo">
+
+        <input type="text"
+               id="telefone"
+               placeholder="Telefone">
+
+        <button onclick="salvarNumero()">
+            Confirmar
+        </button>
+
+        <button onclick="fecharModal()">
+            Cancelar
+        </button>
+
+    </div>
+
+</div>
+
+<script src="js/app.js"></script>
+
+</body>
+</html>

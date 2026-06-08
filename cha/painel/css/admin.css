@@ -1,0 +1,107 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#f4f6f9;
+    font-family:Segoe UI;
+}
+
+.container{
+    width:95%;
+    margin:auto;
+    padding:20px;
+}
+
+header{
+    margin-bottom:20px;
+}
+
+header h1{
+    color:#e75480;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 2px 10px rgba(0,0,0,.1);
+}
+
+.card i{
+    font-size:35px;
+    color:#e75480;
+}
+
+.card h2{
+    margin-top:10px;
+}
+
+.filtros{
+    margin-top:20px;
+}
+
+.filtros input{
+    width:100%;
+    padding:15px;
+    border-radius:10px;
+    border:1px solid #ddd;
+}
+
+.tabela{
+    margin-top:20px;
+    overflow:auto;
+}
+
+table{
+    width:100%;
+    background:white;
+    border-collapse:collapse;
+    border-radius:15px;
+}
+
+th{
+    background:#e75480;
+    color:white;
+    padding:15px;
+}
+
+td{
+    padding:12px;
+    border-bottom:1px solid #eee;
+}
+
+.btn{
+    border:none;
+    padding:8px 12px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.editar{
+    background:#ffc107;
+}
+
+.excluir{
+    background:#dc3545;
+    color:white;
+}
+
+@media(max-width:768px){
+
+    table{
+        font-size:12px;
+    }
+
+    th,td{
+        padding:8px;
+    }
+}
